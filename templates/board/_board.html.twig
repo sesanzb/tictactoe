@@ -1,0 +1,33 @@
+<div class="container-fluid col-8 text-center">
+    {% if board is defined %}
+        {% set limit = sqrt(board.dimension) - 1 %}
+        {% for row in range(0,limit) %}
+            <div class="row no-gutters">
+                {% for col in range(0,limit) %}
+                    <div class="col  d-flex justify-content-center">
+                    <div class="tile">
+                        <div class="content">
+                            <div class="table">
+                                <div class="table-cell">
+                                    {% set sign = '' %}
+                                    {% for marker in board.markers %}
+                                        {% if marker.row == row and marker.col == col %}
+                                            {% set sign = marker.sign %}                                  
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if (board.game.enddate is empty and sign is empty)  %}
+                                        <a role="button" class="stretched-link" href="{{ path('board_add_marker', {'id': board.id, 'row': row, 'col': col}) }}">
+                                            </a>
+                                    {% elseif sign %}
+                                        <i class="{% if sign == "x" %} fas fa-times {% else %} far fa-circle {% endif %} fa-3x"></i>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>

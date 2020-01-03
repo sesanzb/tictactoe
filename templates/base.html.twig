@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Tic-Tac-Toe Game!{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="jumbotron text-center">
+                        <h1 class="display-4">Tic-Tac-Toe Game!</h1>
+                        <p class="lead">2-players game</p>
+                        <hr class="my-4">
+                        {% block nav %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+            
+            {% block body %}{% endblock %}
+            {% block modal %}{% endblock %}
+        </div>
+        {% block javascripts %}
+             {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </body>
+</html>

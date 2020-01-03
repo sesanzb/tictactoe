@@ -1,0 +1,33 @@
+<div class="{{class_prefix}}content">
+    <div class="{{class_prefix}}header">
+        <h3 class="{{class_prefix}}title text-center" id="exampleModalLabel">Start new game</h5>
+    </div>
+    
+    {{ form_start(form, {'action': path('game_new'), 'method': 'POST'}) }}
+    <div class="{{class_prefix}}body">
+        <div class="row">
+            
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <h5 class=""><i class="fas fa-user"></i>{{ form_label(form.first_player.nickname, 'Player 1') }}</h5>
+                {{ form_widget(form.first_player.nickname) }}
+            </div>
+            
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <h5 class=""><i class="fas fa-user"></i>{{ form_label(form.second_player.nickname, 'Player 2') }}</h5>
+                {{ form_widget(form.second_player.nickname) }}
+            </div>
+            
+        </div>
+
+    </div>
+    <div class="{{class_prefix}}footer">
+            <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button type="submit" class="btn btn-success btn-block">
+                <i class="far fa-play-circle"></i> Start
+            </button>
+    </div>
+    {{ form_end(form) }}
+</div>
+

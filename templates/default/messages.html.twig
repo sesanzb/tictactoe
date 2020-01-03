@@ -1,0 +1,27 @@
+{% for label, messages in app.flashes %}
+    {% set bs_alert_type = label %}
+    {% if label == "notice" %}
+        {% set bs_alert_type = "success" %}
+    {% endif %}
+    {% if label == "error" %}
+        {% set bs_alert_type = "danger" %}
+    {% endif %}
+    {% for message in messages %}
+        <div class="alert alert-{{ bs_alert_type }} flash-{{ label }} alert-dismissible fade show" role="alert">
+            <strong>{{ message }}</strong>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+{% if game is defined and game is not null and game.enddate is not null %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>
+            {% if game.winner %} {{ game.winner.nickname }} has won this game! {% else %} Game ended in a draw! {% endif %}
+        </strong>
+    </div>
+{% elseif game is defined and game is not null %}
+    {% set nextPlayer = (last_marker.player is null or game.secondplayer.id == last_marker.player.id) ? game.firstplayer : game.secondplayer %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>{{ nextPlayer.nickname }}'s turn!</strong>
+    </div>
+{% endif %}
