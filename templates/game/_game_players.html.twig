@@ -1,3 +1,4 @@
+{% if game is defined and game is not null and game.startdate is not null %}
 <div class="text-center panel">
     <h5 class="card-title"><i class="fas fa-user"></i> Player 1</h5>
     <p class="ml-5"><span class="font-weight-bold">Nickname</span>: {{ game.firstplayer.nickname }} </p>
@@ -7,3 +8,4 @@
     <p class="ml-5"><span class="font-weight-bold">Nickname</span>: {{ game.secondplayer.nickname }} </p>
     <p class="ml-5"><span class="font-weight-bold">Marker</span>: <i class="far fa-circle"></i></p>
 </div>
+{% endif %}

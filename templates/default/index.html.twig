@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block nav %}
-{% if game is defined and game is not null and game.enddate is null %}
+{% if game is defined and game is not null and game.startdate is not null and game.enddate is null %}
     <p>There is an ongoing game at this moment.Please finish it to start a new one.</p>
 {% else %}
     <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#new-game">
@@ -15,7 +15,7 @@
              {% include 'default/messages.html.twig' %} 
         </div>
     </div>
-    {% if game is defined and game is not null %}
+    {% if game is defined and game is not null and game.startdate is not null %}
         <div class="row d-flex justify-content-between">
             <div class="col-sm-12 col-md-6 col-lg-6">
                 <h2 class="mt-1 mb-4 text-left"><i class="fas fa-th"></i> Board</h2>

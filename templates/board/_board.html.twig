@@ -1,5 +1,5 @@
 <div class="container-fluid col-8 text-center">
-    {% if board is defined %}
+    {% if board is defined and board is not null %}
         {% set limit = sqrt(board.dimension) - 1 %}
         {% for row in range(0,limit) %}
             <div class="row no-gutters">

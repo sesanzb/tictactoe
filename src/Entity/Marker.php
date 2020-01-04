@@ -41,7 +41,7 @@ class Marker
     private $player;
 
     /**
-     * @ORM\Column(type="marker_sign")
+     * @ORM\Column(type="string", length=1)
      */
     private $sign;
 

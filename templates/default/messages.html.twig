@@ -19,7 +19,7 @@
             {% if game.winner %} {{ game.winner.nickname }} has won this game! {% else %} Game ended in a draw! {% endif %}
         </strong>
     </div>
-{% elseif game is defined and game is not null %}
+{% elseif game is defined and game.startdate is not null %}
     {% set nextPlayer = (last_marker.player is null or game.secondplayer.id == last_marker.player.id) ? game.firstplayer : game.secondplayer %}
     <div class="alert alert-info alert-dismissible fade show" role="alert">
         <strong>{{ nextPlayer.nickname }}'s turn!</strong>
