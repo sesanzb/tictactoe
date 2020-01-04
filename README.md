@@ -55,10 +55,7 @@ Se puede acceder localmente al proyecto, ingresando a tu [localhost](http://loca
 
 ##### Notas finales: #####
 
-> Se ha utilizado una BD Sqlite para simplificar el despliegue.
-
-> No se han tenido en cuenta algunas validaciones de datos ni cuestiones de seguridad.
-
-> El jugador únicamente introduce su apodo que es único en este caso y no se requieren más datos por simplificar.
-
-> En la carpeta src/Migrations se puede encontrar el dump de la BD.
+> Se ha utilizado una BD Sqlite para simplificar el despliegue
+> No se han tenido en cuenta algunas validaciones de datos ni cuestiones de seguridad
+> El jugador únicamente introduce su apodo que es único en este caso y no se requieren más datos por simplificar
+> En la carpeta src/Migrations se puede encontrar el dump de la BD
