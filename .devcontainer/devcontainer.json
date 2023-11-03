@@ -1,22 +1,45 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/php-mariadb
 {
-	"name": "PHP & MariaDB",
+	"name": "TicTacToe",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
+	"shutdownAction": "stopCompose",
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "latest"
+		}
+	},
 
 	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
-	"forwardPorts": [8080, 3306]
+	"forwardPorts": [8080, 8443, 3306],
+	"containerEnv": {
+		"APACHE_RUN_USER": "vscode",
+		"APACHE_RUN_GROUP": "vscode"
+	},
+	// "remoteEnv": {
+	// 	"APACHE_RUN_USER": "vscode",
+	// 	"APACHE_RUN_GROUP": "vscode"
+	// },
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
-
+	"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html  && apache2ctl start; if [ -f composer.json ];then composer install;fi",
 	// Configure tool-specific properties.
-	// "customizations": {},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"EditorConfig.EditorConfig",
+				"bmewburn.vscode-intelephense-client",
+				"dbaeumer.vscode-eslint",
+				"eamodio.gitlens",
+				"ikappas.composer",
+				"xdebug.php-debug"
+			]
+		}
+	}
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"

@@ -5,54 +5,33 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\GameRepository")
- */
+#[ORM\Entity(repositoryClass: 'App\Repository\GameRepository')]
 class Game
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
     
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Player", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Player', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false)]
     private $first_player;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Player", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Player', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false)]
     private $second_player;
 
-     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Player")
-     */
+     #[ORM\ManyToOne(targetEntity: 'App\Entity\Player')]
     private $winner;
     
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $startdate;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $enddate;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Board", mappedBy="game", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: 'App\Entity\Board', mappedBy: 'game', cascade: ['persist', 'remove'])]
     private $board;
-
-    public function __construct()
-    {
-        $this->players = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {

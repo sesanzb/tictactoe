@@ -5,7 +5,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 class AppExtension extends AbstractExtension
 {
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('sqrt', [$this, 'squareOperation']),

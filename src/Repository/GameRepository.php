@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Game;
 use App\Entity\Marker;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Game|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,7 +19,7 @@ class GameRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Game::class);
     }
-    
+
     public function getLastMarkerPlayed(Game $game) : Marker
     {
         return $this->getEntityManager()->getRepository(Marker::class)->findOneBy(array('board' => $game->getBoard()),array('id' => 'DESC')) ?? new Marker();

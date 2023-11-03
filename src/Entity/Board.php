@@ -5,33 +5,24 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Expr\Cast\Array_;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\BoardRepository")
- */
+#[ORM\Entity(repositoryClass: 'App\Repository\BoardRepository')]
 class Board
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Game", inversedBy="board", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\OneToOne(targetEntity: 'App\Entity\Game', inversedBy: 'board', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private $game;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Marker", mappedBy="board", orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: 'App\Entity\Marker', mappedBy: 'board', orphanRemoval: true)]
     private $markers;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
+    #[ORM\Column(type: 'smallint')]
     private $dimension;
 
     public function __construct()
@@ -56,9 +47,6 @@ class Board
         return $this;
     }
 
-    /**
-     * @return Collection|Marker[]
-     */
     public function getMarkers(): Collection
     {
         return $this->markers;

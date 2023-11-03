@@ -7,6 +7,7 @@ use App\Entity\Game;
 use App\Entity\Player;
 use App\Form\GameType;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,22 +15,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
-/**
- * @Route("/game")
- */
+#[Route(path: '/game')]
 class GameController extends AbstractController
 {
-    /**
-     * @Route("/", name="game_index", methods={"GET"})
-     */
+    public function __construct(private EntityManagerInterface $entityManager) {
+        // dd($_SERVER);exit;
+    }
+
+    #[Route(path: '/', name: 'game_index', methods: ['GET'])]
     public function index(): Response
     {
         return $this->redirectToRoute('game_new');
     }
 
-    /**
-     * @Route("/new", name="game_new", methods={"GET","POST"})
-     */
+    #[Route(path: '/new', name: 'game_new', methods: ['GET', 'POST'])]
     public function new(Request $request, $modal = false): Response
     {
         $game = new Game();
@@ -57,9 +56,7 @@ class GameController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="game_show", methods={"GET"})
-     */
+    #[Route(path: '/{id}', name: 'game_show', methods: ['GET'])]
     public function show(Game $game): Response
     {
         return $this->render('game/show.html.twig', [
@@ -67,16 +64,14 @@ class GameController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="game_edit", methods={"GET","POST"})
-     */
+    #[Route(path: '/{id}/edit', name: 'game_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Game $game): Response
     {
         $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('game_index');
         }
@@ -87,38 +82,33 @@ class GameController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="game_delete", methods={"DELETE"})
-     */
+    #[Route(path: '/{id}', name: 'game_delete', methods: ['DELETE'])]
     public function delete(Request $request, Game $game): Response
     {
         if ($this->isCsrfTokenValid('delete'.$game->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($game);
-            $entityManager->flush();
+            $this->entityManager->remove($game);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('game_index');
     }
     
     /**
-     * @Route("/{id}/finish/{winner_id}", name="game_finish", defaults={"winner_id" = null}, methods={"GET","POST"})
      * @ParamConverter("game", options={"id" : "id"})
      * @ParamConverter("winner", options={"id" : "winner_id"})
      */
+    #[Route(path: '/{id}/finish/{winner_id}', name: 'game_finish', defaults: ['winner_id' => null], methods: ['GET', 'POST'])]
     public function finish(Game $game, Player $winner = null): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $game->setEnddate(new DateTime("now"));
         $game->setWinner($winner);
-        $entityManager->flush();
+        $this->entityManager->flush();
         return $this->redirectToRoute('homepage');
     }
 
     private function init($player1_nickname, $player2_nickname): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $playerRepository = $entityManager->getRepository(Player::class);
+        $playerRepository = $this->entityManager->getRepository(Player::class);
         $player1 = $playerRepository->findOneBy(['nickname' => $player1_nickname]) ?? new Player();
         $player2 = $playerRepository->findOneBy(['nickname' => $player2_nickname]) ?? new Player();
         $player1->setNickname($player1_nickname);
@@ -131,9 +121,9 @@ class GameController extends AbstractController
         $game->setBoard($board)
                 ->setFirstPlayer($player1)
                 ->setSecondPlayer($player2);
-        $entityManager->persist($board);
-        $entityManager->persist($game);
-        $entityManager->flush();
+        $this->entityManager->persist($board);
+        $this->entityManager->persist($game);
+        $this->entityManager->flush();
 
         return $this->redirectToRoute('homepage');
     }

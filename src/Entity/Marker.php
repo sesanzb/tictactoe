@@ -7,48 +7,35 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\MarkerRepository")
- * @ORM\Table(name="marker", uniqueConstraints={@UniqueConstraint(name="marker_position_uk", columns={"board_id", "row", "col"})})
- * @UniqueEntity(fields={"board_id", "row", "col"})
- */
+#[UniqueEntity(fields: ['board_id', 'row', 'col'])]
+#[ORM\Entity(repositoryClass: 'App\Repository\MarkerRepository')]
+#[ORM\Table(name: 'marker')]
+#[UniqueConstraint(name: 'marker_position_uk', columns: ['board_id', 'row', 'col'])]
 class Marker
 {
     const CROSS_SIGN = MarkerSignType::CROSS_SIGN;
     const CIRCLE_SIGN = MarkerSignType::CIRCLE_SIGN;
     
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
+    #[ORM\Column(type: 'smallint')]
     private $row;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
+    #[ORM\Column(type: 'smallint')]
     private $col;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Player")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'Player')]
+    #[ORM\JoinColumn(nullable: false)]
     private $player;
 
-    /**
-     * @ORM\Column(type="string", length=1)
-     */
+    #[ORM\Column(type: 'string', length: 1)]
     private $sign;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Board", inversedBy="markers")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'Board', inversedBy: 'markers')]
+    #[ORM\JoinColumn(nullable: false)]
     private $board;
 
     public function getId(): ?int

@@ -10,19 +10,19 @@ abstract class EnumType extends Type
     protected $name;
     protected $values = array();
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
         $values = array_map(function($val) { return "'".$val."'"; }, $this->values);
 
         return "ENUM(".implode(", ", $values).")";
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         return $value;
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         if (!in_array($value, $this->values)) {
             throw new \InvalidArgumentException("Invalid '".$this->name."' value.");
@@ -30,12 +30,12 @@ abstract class EnumType extends Type
         return $value;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
     }
